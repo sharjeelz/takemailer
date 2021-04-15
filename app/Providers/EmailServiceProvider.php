@@ -21,16 +21,16 @@ class EmailServiceProvider extends ServiceProvider
          */
         $this->app->singleton(SendgridClient::class, function ($app) {
             $config = $app->make('config');
-            $sendgridConfig = $config->get('services.sendgrid', []);
+            $Config = $config->get('services.sendgrid', []);
 
-            return new SendgridClient($sendgridConfig);
+            return new SendgridClient($Config);
         });
 
         $this->app->singleton(MailjetClient::class, function ($app) {
             $config = $app->make('config');
-            $mailjetConfig = $config->get('services.mailjet', []);
+            $Config = $config->get('services.mailjet', []);
 
-            return new MailjetClient($mailjetConfig);
+            return new MailjetClient($Config);
         });
 
         

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Mailer;
 
 use App\Mailer\MailClient;
+use Illuminate\Support\Facades\Config;
 use SendGrid;
 
 final class SendgridClient implements MailClient
@@ -13,11 +14,12 @@ final class SendgridClient implements MailClient
     /**
      * Configure Sengdrid
      *
-     * @param array  $config
+     * 
      */
-    public function __construct(array $config)
+    public function __construct(array $Config)
     {
-        $this->client = new SendGrid($config['api_key']);
+        
+        $this->client = new SendGrid($Config['api_key']);
     }
 
     /**

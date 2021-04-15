@@ -8,16 +8,17 @@ use App\Models\Email;
 use Mailjet\Resources;
 use App\Mailer\MailSender;
 use App\Mailer\MailjetClient;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 
 final class MailjetSender implements MailSender
 {
 
     private $client;
-    private $message = [];
-    private $email;
+    private $messageBody = [];
 
     /**
-     * Config Mailjet Client
+     * Inject Client
      *
      * @param MailjetClient  $client
      */
@@ -27,45 +28,44 @@ final class MailjetSender implements MailSender
     }
 
     /**
-     * Send email via Mailjet
+     * Send email
      *
      * @param Email  $email
      * @return bool
      */
     public function send(Email $email): bool
     {
-        try {
-     echo 'mailjet';
-         dd($email);
-exit;
-            $messageBody = [
-                'Messages' => [
-                    [
-                        'From' => [
-                            'Email' => "$SENDER_EMAIL",
-                            'Name' => "Me"
-                        ],
-                        'To' => [
-                            [
-                                'Email' => "$RECIPIENT_EMAIL",
-                                'Name' => "You"
-                            ]
-                        ],
-                        'Subject' => "My first Mailjet Email!",
-                        'TextPart' => "Greetings from Mailjet!",
-                        'HTMLPart' => "<h3>Dear passenger 1, welcome to <a href=\"https://www.mailjet.com/\">Mailjet</a>!</h3>
-                        <br />May the delivery force be with you!"
-                    ]
-                ]
-            ];
-            $response = $this->client->post(Resources::$Email, ['body' => $this->messageBody]);
 
+        $this->messageBody = [
+            'Messages' => [
+                [
+                    'From' => [
+                        'Email' => Config::get('services.sendgrid.from'),
+                        'Name' => "Me"
+                    ],
+                    'To' => [
+                        [
+                            'Email' => $email->to,
+                            'Name' => "You"
+                        ]
+                    ],
+                    'Subject' => $email->subject,
+                    'TextPart' => $email->message,
+                ]
+            ]
+        ];
+
+        try {
+    
+            $response = $this->client->post(Resources::$Email, ['body' => $this->messageBody]);
+            Log::info(Email::MJ_EMAIL_SUCCESS.['email.to'=>$email->to,'email.message'=>$email->message,'email.subject'=>$email->subject,'email.date'=>date('y-m-d h:i:s')]);
             return $response->success();
         } catch (\Exception $exception) {
             
-            dd($exception->getMessage());
-
+            Log::debug(Email::MJ_EMAIL_FAIL.$exception->getMessage());
             return false;
+
+           
         }
     }
 }

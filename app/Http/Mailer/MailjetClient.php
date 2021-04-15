@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Mailer;
 
 use App\Mailer\MailClient;
+use Illuminate\Support\Facades\Config;
 use Mailjet\Client;
 
 final class MailjetClient implements MailClient
@@ -13,16 +14,17 @@ final class MailjetClient implements MailClient
     /**
      * Configure Mailjet
      *
-     * @param array  $config
+     * 
      */
-    public function __construct(array $config)
+    public function __construct(array $Config)
     {
         $this->client = new Client(
-            $config['api_key'],
-            $config['api_secret'],
-            $config['performer'],
+            $Config['api_key'],
+            $Config['api_secret'],
+            $Config['performer'],
             [
-                'version' => $config['version']
+                'version' =>$Config['version']
+
             ]
 
         );

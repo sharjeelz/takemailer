@@ -7,7 +7,7 @@ use App\Http\Requests\EmailRequest;
 use App\Mailer\MailjetSender;
 use App\Mailer\MailSender;
 use Illuminate\Http\JsonResponse;
-
+use Illuminate\Support\Facades\Config;
 
 class EmailController extends Controller
 {
@@ -24,7 +24,6 @@ class EmailController extends Controller
      */
     public function save(EmailRequest $request) : JsonResponse
     {
-      
       $data= $request->validated();
       $email = new Email();
       $email->to = $data['to'];
@@ -32,7 +31,7 @@ class EmailController extends Controller
       $email->message = $data['message'];
       $email->save();
 
-      dispatch(new \App\Jobs\SendEmail($email,$this->obj));
+      dispatch(new \App\Jobs\SendEmail($email));
         return response()
             ->json([ 'message' => 'Email Sent' ])
             ->setStatusCode(201);
