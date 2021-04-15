@@ -8,6 +8,8 @@ use App\Models\Email;
 use Mailjet\Resources;
 use App\Mailer\MailSender;
 use App\Mailer\MailjetClient;
+use App\Models\Log as ModelsLog;
+use App\Models\Logger;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 
@@ -58,7 +60,12 @@ final class MailjetSender implements MailSender
         try {
     
             $response = $this->client->post(Resources::$Email, ['body' => $this->messageBody]);
+           
+
+
+
             $log = ['email.to'=>$email->to,'email.message'=>$email->message,'email.subject'=>$email->subject,'email.date'=>date('y-m-d h:i:s')];
+            
             Log::info(Email::MJ_EMAIL_SUCCESS.print_r($log,true));
             return $response->success();
         } catch (\Exception $exception) {
