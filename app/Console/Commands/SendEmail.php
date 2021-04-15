@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 
 use App\Models\Email;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class SendEmail extends Command
@@ -50,12 +51,18 @@ class SendEmail extends Command
         $email->subject = $subject;
         $email->message = $message;
 
-        $this->validateData($email);
-        $email->save();
+        if($this->validateData($email)){
+            $email->save();
         
 
-        dispatch(new \App\Jobs\SendEmail($email));
-        $this->info(Email::CONSOLE_EMAIL_SENT);
+            dispatch(new \App\Jobs\SendEmail($email));
+            Log::info("Sending Via Console");
+            $this->info(Email::CONSOLE_EMAIL_SENT);
+        }
+        else {
+            $this->error('validation of data failed');
+        }
+        
 
 
     }
@@ -68,7 +75,8 @@ class SendEmail extends Command
         ]);
 
         if ($validator->fails()) {
-           dd('failed');
+          return false;
         }
+        return true;
     }
 }
