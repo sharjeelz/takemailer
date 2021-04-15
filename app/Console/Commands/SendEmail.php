@@ -46,27 +46,22 @@ class SendEmail extends Command
         $subject = $this->ask(Email::CONSOLE_SUBJECT);
         $message = $this->ask(Email::CONSOLE_MESSAGE);
 
-        $email= new Email();
-        $email->to= $to;
+        $email = new Email();
+        $email->to = $to;
         $email->subject = $subject;
         $email->message = $message;
 
-        if($this->validateData($email)){
+        if ($this->validateData($email)) {
             $email->save();
-        
-
             dispatch(new \App\Jobs\SendEmail($email));
             Log::info("Sending Via Console");
             $this->info(Email::CONSOLE_EMAIL_SENT);
+        } else {
+            $this->error(Email::CONSOLE_MESSAGE_FAILED_VALIDATION);
         }
-        else {
-            $this->error('validation of data failed');
-        }
-        
-
-
     }
-    private function validateData($email){
+    private function validateData($email)
+    {
 
         $validator = Validator::make($email->toArray(), [
             'to'            => 'required|string|email|max:255',
@@ -75,7 +70,7 @@ class SendEmail extends Command
         ]);
 
         if ($validator->fails()) {
-          return false;
+            return false;
         }
         return true;
     }

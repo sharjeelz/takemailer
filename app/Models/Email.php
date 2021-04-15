@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Email extends Model
+
 {
+    use HasFactory;
     public const MJ_EMAIL_SUCCESS = 'Email Sent Via Mailjet';
     public const MJ_EMAIL_FAIL = 'Email Failed Via Mailjet';
 
@@ -19,6 +22,10 @@ class Email extends Model
     public const CONSOLE_SUBJECT = 'Enter Subject';
     public const CONSOLE_MESSAGE = 'Enter Message';
     public const CONSOLE_EMAIL_SENT = 'Email Sent';
+    public const CONSOLE_MESSAGE_FAILED_VALIDATION = 'validation of data failed';
+
+
+    
 
     
     protected $table= 'emails';
