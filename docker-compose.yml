@@ -1,0 +1,30 @@
+version: '2'
+services:
+  app:
+    build: .
+    ports:
+      - "8003:8181"
+    volumes:
+      - .:/app
+    env_file: .env
+    working_dir: /app
+    command: bash -c 'php artisan migrate && php artisan serve --host 0.0.0.0'
+    depends_on:
+      - db
+    links:
+      - db
+  db:
+    image: "mysql:8.0"
+    environment:
+        - MYSQL_ROOT_PASSWORD=myapp
+        - MYSQL_DATABASE=myapp
+        - MYSQL_USER=myapp
+        - MYSQL_PASSWORD=myapp
+    volumes:
+      - ./data/:/var/lib/mysql
+    ports:
+      - "33069:3306"
+# Volumes
+volumes:
+  data:
+    driver: local
