@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Mailer\MailjetSender;
+use App\Mailer\MailSender;
 use App\Mailer\SendgridSender;
 use App\Models\Email;
 use Illuminate\Bus\Queueable;
@@ -32,17 +33,27 @@ class SendEmail implements ShouldQueue
      *
      * @return void
      */
-    public function handle(MailjetSender $sensder)
+    public function handle(MailjetSender $sender1, SendgridSender $sender2)
     {
         /**
          * 
          * I think here if we have an array of mail senders, then we can loop through them and if first gives false
-         * we move to second, and so on.
+         * we move to second, and so on. without having if else
          * 
          * But I am not able to do just that, How to get thoses mailers as an array seems out of my knowledge
+         * 
+         * We can bind multiple implementations to same interface in this context the Mailsender interface
+         * 
+         * I believe ther is sometthing we can do with appservice provider to bind classes with interfaces
          */
 
-        $sensder->send($this->email);
+         
+       if ( $sender1->send($this->email) ) {
+           return true;
+       }
+       else {
+        $sender2->send($this->email);
+       }
     }
     /**
      * The job failed to process.

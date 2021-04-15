@@ -8,6 +8,8 @@ use App\Mailer\MailClient;
 use App\Mailer\MailjetClient;
 use App\Mailer\MailjetSender;
 use App\Mailer\MailSender;
+use App\Mailer\SendgridClient;
+use App\Mailer\SendgridSender;
 use App\Models\Email;
 use Illuminate\Support\ServiceProvider;
 
@@ -21,9 +23,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(MailClient::class, MailjetClient::class);
-        $this->app->bind(MailSender::class, MailjetSender::class);
-
+      
+       // $this->app->bind('App\Mailer\MailSender.mailjet', MailjetSender::class);
+        //$this->app->bind('App\Mailer\MailSender.sendgrid', SendgridSender::class);
         
 
     }

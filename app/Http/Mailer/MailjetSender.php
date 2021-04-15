@@ -40,7 +40,7 @@ final class MailjetSender implements MailSender
             'Messages' => [
                 [
                     'From' => [
-                        'Email' => Config::get('services.sendgrid.from'),
+                        'Email' => Config::get('services.mailjet.from'),
                         'Name' => "Me"
                     ],
                     'To' => [
@@ -58,11 +58,13 @@ final class MailjetSender implements MailSender
         try {
     
             $response = $this->client->post(Resources::$Email, ['body' => $this->messageBody]);
-            Log::info(Email::MJ_EMAIL_SUCCESS.['email.to'=>$email->to,'email.message'=>$email->message,'email.subject'=>$email->subject,'email.date'=>date('y-m-d h:i:s')]);
+            $log = ['email.to'=>$email->to,'email.message'=>$email->message,'email.subject'=>$email->subject,'email.date'=>date('y-m-d h:i:s')];
+            Log::info(Email::MJ_EMAIL_SUCCESS.print_r($log,true));
             return $response->success();
         } catch (\Exception $exception) {
             
-            Log::debug(Email::MJ_EMAIL_FAIL.$exception->getMessage());
+            Log::info(Email::MJ_EMAIL_FAIL.print_r($exception->getMessage(),true));
+            
             return false;
 
            

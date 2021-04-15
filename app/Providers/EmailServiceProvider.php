@@ -17,7 +17,8 @@ class EmailServiceProvider extends ServiceProvider
     {
 
         /**
-         * Create singleton for Mailers to be used across the application
+         * Create singleton for bootstarpping the Mailers to be used across the application
+         * If a new mailer is added it should be added here as well
          */
         $this->app->singleton(SendgridClient::class, function ($app) {
             $config = $app->make('config');
