@@ -43,7 +43,7 @@ there is a way of creating channels to do custom logging, but im not aware of it
 
 11. wrote few unit tests along with the development, there can be many more tests but wrote to the point
 
-
+12. for now we need to run php artisan queue:work to listen the jobs, but this can be in backrgound by installing supervisor on server
 
 Limited experience in docker restricted me to do the scale thing.
 I am sure I a can do better than this , but with lesser experienece in above kind of thing makes me a little offroad
