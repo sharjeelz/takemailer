@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Logger extends Model
 {
+    protected $table = ['logs'];
     protected $fillable = [
-        'message',
+        'payload',
         'status',
         'origin',
     ];

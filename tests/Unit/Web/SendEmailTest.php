@@ -23,11 +23,11 @@ class SendEmailTest extends TestCase
         //$this->withoutExceptionHandling();
         $email_data = [
             'to' => 'szubair01@gmail.com',
-            'subject'=> 'Hello',
+            'subject' => 'Hello',
             'message' => 'Hello from emailer'
         ];
-        
-        $response = $this->post('/api/email',$email_data);
+
+        $response = $this->post('/api/email', $email_data);
         return $response->assertStatus(201);
     }
 
@@ -42,11 +42,11 @@ class SendEmailTest extends TestCase
         //$this->withoutExceptionHandling();
         $email_data = [
             'to' => 'szubair01',
-            'subject'=> 'Hello',
+            'subject' => 'Hello',
             'message' => 'Hello from emailer'
         ];
-        
-        $response = $this->post('/api/email',$email_data);
+
+        $response = $this->post('/api/email', $email_data);
         return $response->assertStatus(302);
     }
     /**
@@ -60,11 +60,11 @@ class SendEmailTest extends TestCase
         //$this->withoutExceptionHandling();
         $email_data = [
             'to' => 'szubair01@gmail.com',
-            'subject'=> null,
+            'subject' => null,
             'message' => 'Hello from emailer'
         ];
-        
-        $response = $this->post('/api/email',$email_data);
+
+        $response = $this->post('/api/email', $email_data);
         return $response->assertStatus(302);
     }
     /**
@@ -78,15 +78,15 @@ class SendEmailTest extends TestCase
         //$this->withoutExceptionHandling();
         $email_data = [
             'to' => 'szubair01@gmail.com',
-            'subject'=> 'Hello',
+            'subject' => 'Hello',
             'message' => null
         ];
-        
-        $response = $this->post('/api/email',$email_data);
+
+        $response = $this->post('/api/email', $email_data);
         return $response->assertStatus(302);
     }
 
-     /**
+    /**
      *
      *
      * @return void
@@ -98,71 +98,65 @@ class SendEmailTest extends TestCase
         $this->withoutExceptionHandling();
         $email_data = [
             'to' => 'szubair01@gmail.com',
-            'subject'=> 'Hello',
+            'subject' => 'Hello',
             'message' => 'Hello from emailer'
         ];
-        
-       $this->post('/api/email',$email_data);
-       Queue::assertPushed(SendEmail::class);
+
+        $this->post('/api/email', $email_data);
+        Queue::assertPushed(SendEmail::class);
     }
 
     public function test_send_email_with_valid_data()
     {
         $this->withoutExceptionHandling();
         $this->artisan('send:email')
-        ->expectsOutput(Email::CONSLE_SEND_EMAIL)
-        ->expectsQuestion(Email::CONSOLE_RECIPIENT,'szubair01@gmail.com')
-        ->expectsQuestion(Email::CONSOLE_SUBJECT,'From Console Test')
-        ->expectsQuestion(Email::CONSOLE_MESSAGE,'Hello this is laravel console email testing')
-        ->expectsOutput(Email::CONSOLE_EMAIL_SENT);
-        
+            ->expectsOutput(Email::CONSLE_SEND_EMAIL)
+            ->expectsQuestion(Email::CONSOLE_RECIPIENT, 'szubair01@gmail.com')
+            ->expectsQuestion(Email::CONSOLE_SUBJECT, 'From Console Test')
+            ->expectsQuestion(Email::CONSOLE_MESSAGE, 'Hello this is laravel console email testing')
+            ->expectsOutput(Email::CONSOLE_EMAIL_SENT);
     }
 
     public function test_send_email_with_invalid_email()
     {
         $this->withoutExceptionHandling();
         $this->artisan('send:email')
-        ->expectsOutput(Email::CONSLE_SEND_EMAIL)
-        ->expectsQuestion(Email::CONSOLE_RECIPIENT,'szubair01')
-        ->expectsQuestion(Email::CONSOLE_SUBJECT,'From Console Test')
-        ->expectsQuestion(Email::CONSOLE_MESSAGE,'Hello this is laravel console email testing')
-        ->expectsOutput(Email::CONSOLE_MESSAGE_FAILED_VALIDATION);
-        
+            ->expectsOutput(Email::CONSLE_SEND_EMAIL)
+            ->expectsQuestion(Email::CONSOLE_RECIPIENT, 'szubair01')
+            ->expectsQuestion(Email::CONSOLE_SUBJECT, 'From Console Test')
+            ->expectsQuestion(Email::CONSOLE_MESSAGE, 'Hello this is laravel console email testing')
+            ->expectsOutput(Email::CONSOLE_MESSAGE_FAILED_VALIDATION);
     }
     public function test_send_email_with_empty_recipient()
     {
         $this->withoutExceptionHandling();
         $this->artisan('send:email')
-        ->expectsOutput(Email::CONSLE_SEND_EMAIL)
-        ->expectsQuestion(Email::CONSOLE_RECIPIENT,'szubair01')
-        ->expectsQuestion(Email::CONSOLE_SUBJECT,null)
-        ->expectsQuestion(Email::CONSOLE_MESSAGE,'Hello this is laravel console email testing')
-        ->expectsOutput(Email::CONSOLE_MESSAGE_FAILED_VALIDATION);
-        
+            ->expectsOutput(Email::CONSLE_SEND_EMAIL)
+            ->expectsQuestion(Email::CONSOLE_RECIPIENT, 'szubair01')
+            ->expectsQuestion(Email::CONSOLE_SUBJECT, null)
+            ->expectsQuestion(Email::CONSOLE_MESSAGE, 'Hello this is laravel console email testing')
+            ->expectsOutput(Email::CONSOLE_MESSAGE_FAILED_VALIDATION);
     }
     public function test_send_email_with_empty_message()
     {
         $this->withoutExceptionHandling();
         $this->artisan('send:email')
-        ->expectsOutput(Email::CONSLE_SEND_EMAIL)
-        ->expectsQuestion(Email::CONSOLE_RECIPIENT,'szubair01')
-        ->expectsQuestion(Email::CONSOLE_SUBJECT,'From Console Test')
-        ->expectsQuestion(Email::CONSOLE_MESSAGE,null)
-        ->expectsOutput(Email::CONSOLE_MESSAGE_FAILED_VALIDATION);
-        
+            ->expectsOutput(Email::CONSLE_SEND_EMAIL)
+            ->expectsQuestion(Email::CONSOLE_RECIPIENT, 'szubair01')
+            ->expectsQuestion(Email::CONSOLE_SUBJECT, 'From Console Test')
+            ->expectsQuestion(Email::CONSOLE_MESSAGE, null)
+            ->expectsOutput(Email::CONSOLE_MESSAGE_FAILED_VALIDATION);
     }
     public function test_send_email_with_valid_data_and_queue()
     {
         Queue::fake();
         $this->withoutExceptionHandling();
         $this->artisan('send:email')
-        ->expectsOutput(Email::CONSLE_SEND_EMAIL)
-        ->expectsQuestion(Email::CONSOLE_RECIPIENT,'szubair01@gmail.com')
-        ->expectsQuestion(Email::CONSOLE_SUBJECT,'From Console Test')
-        ->expectsQuestion(Email::CONSOLE_MESSAGE,'Hello this is laravel console email testing')
-        ->expectsOutput(Email::CONSOLE_EMAIL_SENT);
+            ->expectsOutput(Email::CONSLE_SEND_EMAIL)
+            ->expectsQuestion(Email::CONSOLE_RECIPIENT, 'szubair01@gmail.com')
+            ->expectsQuestion(Email::CONSOLE_SUBJECT, 'From Console Test')
+            ->expectsQuestion(Email::CONSOLE_MESSAGE, 'Hello this is laravel console email testing')
+            ->expectsOutput(Email::CONSOLE_EMAIL_SENT);
         Queue::assertPushed(SendEmail::class);
-        
-        
     }
 }

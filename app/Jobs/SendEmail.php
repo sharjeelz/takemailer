@@ -17,6 +17,7 @@ class SendEmail implements ShouldQueue
 {
     protected $email;
 
+
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     /**
      * Create a new job instance.
@@ -47,13 +48,12 @@ class SendEmail implements ShouldQueue
          * I believe ther is sometthing we can do with appservice provider to bind classes with interfaces
          */
 
-         
-       if ( $sender1->send($this->email) ) {
-           return true;
-       }
-       else {
-        $sender2->send($this->email);
-       }
+
+        if ($sender1->send($this->email)) {
+            return true;
+        } else {
+            $sender2->send($this->email);
+        }
     }
     /**
      * The job failed to process.

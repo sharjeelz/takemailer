@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Mailer;
@@ -23,7 +24,7 @@ final class MailjetClient implements MailClient
             $Config['api_secret'],
             $Config['performer'],
             [
-                'version' =>$Config['version']
+                'version' => $Config['version']
 
             ]
 

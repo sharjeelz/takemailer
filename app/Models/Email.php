@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Email extends Model
 
@@ -25,19 +26,18 @@ class Email extends Model
     public const CONSOLE_MESSAGE_FAILED_VALIDATION = 'validation of data failed';
 
 
-    
 
-    
-    protected $table= 'emails';
+
+
+    protected $table = 'emails';
     protected $fillable = [
         'to',
         'subject',
         'message',
     ];
 
-
-
+    public function getJobs()
+    {
+        return DB::table('jobs')->get();
+    }
 }
-
-
-    

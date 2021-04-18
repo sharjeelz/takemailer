@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Mailer;
@@ -18,7 +19,7 @@ final class SendgridClient implements MailClient
      */
     public function __construct(array $Config)
     {
-        
+
         $this->client = new SendGrid($Config['api_key']);
     }
 

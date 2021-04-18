@@ -33,8 +33,6 @@ class EmailServiceProvider extends ServiceProvider
 
             return new MailjetClient($Config);
         });
-
-        
     }
 
     /**

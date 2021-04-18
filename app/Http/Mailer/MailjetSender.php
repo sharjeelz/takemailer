@@ -61,9 +61,6 @@ final class MailjetSender implements MailSender
     
             $response = $this->client->post(Resources::$Email, ['body' => $this->messageBody]);
            
-
-
-
             $log = ['email.to'=>$email->to,'email.message'=>$email->message,'email.subject'=>$email->subject,'email.date'=>date('y-m-d h:i:s')];
             
             Log::info(Email::MJ_EMAIL_SUCCESS.print_r($log,true));
