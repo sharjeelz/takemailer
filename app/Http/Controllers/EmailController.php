@@ -25,6 +25,7 @@ class EmailController extends Controller
    */
   public function save(EmailRequest $request): JsonResponse
   {
+    
     $data = $request->validated();
     $email = new Email();
     $email->to = $data['to'];
