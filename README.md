@@ -46,7 +46,7 @@ there is a way of creating channels to do custom logging, but im not aware of it
 12. for now we need to run php artisan queue:work to listen the jobs, but this can be in backrgound by installing supervisor on server
 
 
-13. added vue page for fetching the queues
+13. added vue page for sending emails(I did this after I submitted my test on weekend, I had time so I did it)
 
 Limited experience in docker restricted me to do the scale thing.
 I am sure I a can do better than this , but with lesser experienece in above kind of thing makes me a little offroad
